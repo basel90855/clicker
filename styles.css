@@ -1,0 +1,155 @@
+:root {
+  --bg-1: #0b0a1f;
+  --bg-2: #1a1740;
+  --accent-1: #8a5cff;
+  --accent-2: #00e0ff;
+  --accent-3: #ff5cab;
+  --text: #f4f6ff;
+  --subtle: #b7b8d4;
+  --glass: rgba(255, 255, 255, 0.08);
+  --glass-bright: rgba(255, 255, 255, 0.16);
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: radial-gradient(1200px 800px at 20% 10%, var(--bg-2), transparent 60%),
+              radial-gradient(900px 700px at 80% 90%, #10102a, transparent 60%),
+              linear-gradient(135deg, var(--bg-1), #0a0a1a 60%);
+  color: var(--text);
+  font-family: 'Poppins', 'Cairo', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  overflow: hidden;
+}
+
+#bg-ornaments::before,
+#bg-ornaments::after {
+  content: "";
+  position: absolute;
+  inset: -25vmax;
+  background: conic-gradient(from 180deg at 50% 50%, transparent 0 35%, rgba(138, 92, 255, 0.12) 40%, transparent 60% 100%),
+              radial-gradient(closest-side, rgba(0, 224, 255, 0.1), transparent);
+  filter: blur(50px) saturate(140%);
+  animation: spin 40s linear infinite;
+}
+#bg-ornaments::after { animation-duration: 65s; animation-direction: reverse; opacity: 0.7; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.stage {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  align-items: center;
+  justify-items: center;
+}
+
+.title {
+  margin: 16px 0 0;
+  font-size: clamp(28px, 5vw, 46px);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-align: center;
+  text-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+
+.title .gradient {
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.subtitle {
+  margin: 0 0 24px;
+  color: var(--subtle);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Button base position and animation */
+.neon-btn {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 22px;
+  min-width: 220px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  color: var(--text);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.3px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.35);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255,255,255,0.05) inset,
+    0 0 32px 6px rgba(138, 92, 255, 0.15),
+    0 0 64px 12px rgba(0, 224, 255, 0.08);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
+  transition: left 700ms cubic-bezier(.2,.8,.2,1), top 700ms cubic-bezier(.2,.8,.2,1),
+              transform 700ms cubic-bezier(.2,.8,.2,1), box-shadow 300ms ease, filter 300ms ease;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.neon-btn:hover {
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255,255,255,0.08) inset,
+    0 0 42px 10px rgba(138, 92, 255, 0.25),
+    0 0 86px 20px rgba(0, 224, 255, 0.15);
+  filter: saturate(120%);
+}
+
+.neon-btn:active { transform: translate(-50%, -50%) scale(0.98); }
+
+/* Celebration pulse */
+.neon-btn.pulse {
+  animation: pulse 900ms ease-out 1;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(0, 224, 255, 0.4), 0 0 0 0 rgba(138, 92, 255, 0.3); }
+  70% { box-shadow: 0 0 0 24px rgba(0, 224, 255, 0), 0 0 0 16px rgba(138, 92, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 224, 255, 0), 0 0 0 0 rgba(138, 92, 255, 0); }
+}
+
+/* Small floating idle animation */
+.neon-btn.idle {
+  animation: floaty 4s ease-in-out infinite;
+}
+@keyframes floaty {
+  0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
+  50% { transform: translate(-50%, -50%) translateY(-8px); }
+}
+
+/* Make sure Arabic text renders beautifully */
+html[dir="rtl"], body[dir="rtl"] {
+  font-family: 'Cairo', 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+}
+
+/* Larger screens refinements */
+@media (min-width: 720px) {
+  .neon-btn { padding: 18px 26px; min-width: 260px; font-size: 20px; }
+  .subtitle { font-size: 15px; }
+}
+
+/* Canvas cover */
+#confettiCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
